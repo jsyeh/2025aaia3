@@ -1,26 +1,17 @@
-/// week07-1a.cpp
-/// TAICA NYCU 國立陽明交通大學電機系 期中考第6題
-/// Input: 1-9 的數字 Output: 繞圈圈的方形
-/// ex. Input: 3
-/// 3 3 3 3 3
-/// 3 2 2 2 3
-/// 3 2 1 2 3
-/// 3 2 2 2 3
-/// 3 3 3 3 3 總共5層樓
-/// Input 2 有3層樓, Input 3 有5層樓, Input 4 有7層樓, Input 5 有9層樓
+/// week07-1.cpp 算2個長方形交集的面積
+/// TAICA 交大基礎程式設計(C++) 期中考題 第2題
 #include <iostream>
 using namespace std;
-
 int main()
 {
-    int n;
-    cin >> n; /// Step01: Input
-
-    for (int i=1; i<2*n; i++) { /// Step03: for迴圈, 樓層
-        for (int j=1; j<2*n; j++) { /// 第幾格
-            cout << n;
-        }
-        cout << "現在是第i樓, i:" << i; /// Step04: 樓層鷹架(將會拆掉)
-        cout << endl; /// Step02: Output, 跳行
-    }
+    int x1, x2, x3, x4; /// x座標
+    int y1, y2, y3, y4; /// y座標
+    cin >> x1 >> y1 >> x2 >> y2 >> x3 >> y3 >> x4 >> y4;
+    int ans = 0;
+    for (int x=x1; x<x2; x++) { /// 依序檢查第1個長方形
+        for (int y=y1; y<y2; y++) { /// 的每一個格子格子
+            if (x3<=x && x<x4 && y3<=y && y<y4) ans++;
+        }/// 看這個格子, 是不是在第2個長方形裡面
+    } /// 注意: 在電腦/數學裡, 習慣「左邊包含、右邊不含」
+    cout << ans;
 }

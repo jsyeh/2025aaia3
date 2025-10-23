@@ -1,30 +1,25 @@
-// week07-3.cpp LeetCode 學習計畫 Simulation 第1題
-// 682. Baseball Game 計算點數
+// week07-3.cpp 學習計畫 Simulation 第3題
+// 1275. Find Winner on a Tic Tac Toe Game
 class Solution {
-public:
-    int calPoints(vector<string>& operations) {
-        vector<int> a; // Part04: 要把資料, 放到陣列 a 裡面
-        for (string op : operations) { // Part01: C++ 進階迴圈
-            //cout << "現在讀到了: " << op << "\n"; // Part02: 看它是誰, 等一下刪掉哦
-            // Part03: 一堆 if 判斷要怎麼模擬
-            if (op[0]=='C') { // Clear 清掉最後一位
-                a.pop_back(); // 丟掉最後一個 // Part06: pop_back()
-            } else if (op[0]=='D') { // 最後1位「變2倍」再「加到最後面」
-                a.push_back( a.back() * 2 ); // 乘2倍 Part06: back()
-            } else if (op[0]=='+') { // 還不知道, 等一下再看
-                int temp = a.back(); // 先抄最後1台車的車牌
-                a.pop_back(); // 把最後1台車開走
-                int temp2 = a.back(); // 可以抄倒數第2台車的車牌
-                a.push_back(temp); // 把剛剛的車停回來
-                a.push_back( temp + temp2 ); // 把最後2個加起來, 再「加到最後面」
-            } else { // 數字的字串囉, 要「加到最後面」
-                a.push_back( stoi(op) ); // Part04: .push_back()
-            }
+public:           // vector 是 C++ 的陣列, 伸縮自如, 但是2D比較難寫
+    string tictactoe(vector<vector<int>>& moves) {
+        int a[3][3] = {}; // C語言的陣列, 大一教過, 比較簡單 {}大括號代表初始值,「裡面空的」代表都是0
+        int now = 1; // 現在的玩家 1:玩家A, 2:玩家B
+        int winner = 0; // 還沒有找到得勝的玩家
+        for (vector<int>& move : moves) {
+            int i = move[0], j = move[1]; // 取出座標
+            a[i][j] = now; // 把棋子,下在陣列裡
+            // 下完後, 要檢查「有沒有得勝!
+            if (now==a[i][0] && now==a[i][1] && now==a[i][2]) winner = now; // 橫線
+            if (now==a[0][j] && now==a[1][j] && now==a[2][j]) winner = now; // 直線
+            if (now==a[0][0] && now==a[1][1] && now==a[2][2]) winner = now; // 左上右下斜線
+            if (now==a[0][2] && now==a[1][1] && now==a[2][0]) winner = now; // 右上左下斜線
+            if (now==1) now = 2; // 兩人要交換 1換2
+            else now = 1; // 或 2換1
         }
-        int ans = 0;
-        for (int now : a) { //  Part05: C++ 進階迴圈 要看陣列裡的值, 把全部加起來
-            ans += now; //cout << now << " "; // Part02: 看它是誰, 等一下刪掉哦 (看陣列裡的值)
-        }
-        return ans; //return 0; // 先隨便 return 等一下再寫「真的答案」
+        if (winner==1) return "A";
+        else if (winner==2) return "B";
+        else if (moves.size()==9) return "Draw"; // 平手的英文 Draw
+        else return "Pending"; // 送出去, 發現還有第4種可能, 叫 Pending 還沒下完啊哈
     }
 };
